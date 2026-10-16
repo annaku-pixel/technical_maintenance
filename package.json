@@ -1,0 +1,17 @@
+{
+  "name": "bd-lb1-substation-maintenance",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Лабораторна робота № 1 з баз даних: облік планового ТО обладнання підстанцій",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "mysql2": "^3.12.0"
+  }
+}

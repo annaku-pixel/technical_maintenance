@@ -1,0 +1,4 @@
+<%- include('header',{title}) %>
+<section class="panel"><h2>Обладнання та підпорядковані плани ТО</h2><p><strong><%= parent.equipment_name %></strong> (<%= parent.inventory_number %>)</p><p>Тип: <%= parent.type_name %> · Виробник: <%= parent.manufacturer %> · Місце: <%= parent.installation_location %></p><p>Це приклад зв’язку «один-до-багатьох»: для однієї одиниці обладнання відображено лише її плани ТО.</p><a class="link-btn" href="/equipment">Назад до обладнання</a></section>
+<section class="panel"><h2>Плани ТО (<%= plans.length %>)</h2><div class="scroll"><table><thead><tr><th>№ плану</th><th>Дата</th><th>Вид</th><th>Роботи</th><th>Пріоритет</th><th>Статус</th></tr></thead><tbody><% plans.forEach(x => { %><tr><td><%= x.plan_number %></td><td><%= x.planned_date %></td><td><%= x.maintenance_kind %></td><td><%= x.planned_work %></td><td><%= x.priority %></td><td><%= x.plan_status %></td></tr><% }) %></tbody></table></div></section>
+<%- include('footer') %>
