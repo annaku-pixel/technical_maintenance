@@ -1,0 +1,44 @@
+<%- include('header',{title}) %>
+<section class="panel">
+  <h2>
+    <%= title %>
+  </h2>
+  <p>
+    Ідентифікатор запису:
+    <strong>
+      <%= record[cfg.key] %>
+    </strong>
+    . Первинний ключ не редагується.
+  </p>
+  <form method="post" action="<%= cfg.redirect %>/<%= record[cfg.key] %>/edit">
+    <% cfg.fields.forEach(f=>{ const [name,label,kind,max,optional]=f; const val=record[name]??''; %>
+    <label class="<%= kind==='textarea'?'full':'' %>">
+      <%= label %>
+      <% if(kind==='textarea'){ %>
+        <textarea data-starts-letter="<%= ['purpose_description','planned_work'].includes(name) %>" name="<%= name %>" maxlength="<%= max %>" <%= optional?'':'required' %>>
+          <%= val %>
+        </textarea>
+      <% } else if(['types','equipment','categories','states','kinds','priorities','planStatuses'].includes(kind)){const opts=kind==='types'?types.map(x=>[x.type_id,x.type_name]):kind==='equipment'?equipment.map(x=>[x.equipment_id,x.inventory_number+' – '+x.equipment_name]):({categories,states,kinds,priorities,planStatuses})[kind].map(x=>[x,x]); %>
+      <select name="<%= name %>" required>
+        <% opts.forEach(([id,label])=>{ %>
+          <option value="<%= id %>" <%= String(id)===String(val)?'selected':'' %>>
+            <%= label %>
+          </option>
+        <% }) %>
+      </select>
+    <% } else { %>
+      <input data-starts-letter="<%= ['type_name','regulation_document','equipment_name','manufacturer','installation_location'].includes(name) %>" name="<%= name %>" type="<%=kind%>" value="<%=val%>" <%=max&&kind==='text'?'maxlength='+max:''%> <%=optional?'':'required'%> <%=kind==='number'?'min=0.01 step=any':''%>>
+    <% } %>
+  </label>
+<% }) %>
+<div class="full">
+  <button type="submit">
+    Зберегти зміни
+  </button>
+  <a class="link-btn" href="<%= cfg.redirect %>">
+    Скасувати
+  </a>
+</div>
+</form>
+</section>
+<%- include('footer') %>

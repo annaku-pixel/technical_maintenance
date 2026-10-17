@@ -1,0 +1,185 @@
+<%- include('header',{title}) %>
+<section class="panel">
+  <h2>
+    Плани технічного обслуговування
+  </h2>
+  <p class="small">
+    Третя таблиця БД. Плани пов’язані з обладнанням відношенням 1:N.
+  </p>
+  <div class="scroll">
+    <table>
+      <thead>
+        <tr>
+          <th>
+            ID
+          </th>
+          <th>
+            № плану
+          </th>
+          <th>
+            Обладнання
+          </th>
+          <th>
+            Планова дата
+          </th>
+          <th>
+            Вид ТО
+          </th>
+          <th>
+            Роботи
+          </th>
+          <th>
+            Пріоритет
+          </th>
+          <th>
+            Год
+          </th>
+          <th style="text-align: center;">
+            Статус
+          </th>
+          <th class="action-col" style="text-align: center;">
+            Дії
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <% rows.forEach(x => { %>
+          <tr>
+            <td>
+              <%= x.plan_id %>
+            </td>
+            <td>
+              <%= x.plan_number %>
+            </td>
+            <td>
+              <a href="/equipment/<%= x.equipment_id %>/plans">
+                <%= x.inventory_number %>
+              </a>
+              <div class="small">
+                <%= x.equipment_name %>
+              </div>
+            </td>
+            <td>
+              <%= x.planned_date %>
+            </td>
+            <td>
+              <%= x.maintenance_kind %>
+            </td>
+            <td>
+              <%= x.planned_work %>
+            </td>
+            <td>
+              <%= x.priority %>
+            </td>
+            <td>
+              <%= x.estimated_duration_hours %>
+            </td>
+            <td>
+              <%= x.plan_status %>
+            </td>
+            <td class="action-cell">
+              <a class="link-btn" href="/plans/<%= x.plan_id %>/edit">
+                Редагувати
+              </a>
+              <form class="inline-form" method="post" action="/plans/<%= x.plan_id %>/delete" data-delete-label="План ТО: <%= x.plan_number %>">
+                <button class="danger" type="submit">
+                  Видалити
+                </button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</section>
+<section class="panel">
+  <h2>
+    Додати план ТО
+  </h2>
+  <form method="post" action="/plans">
+    <label>
+      Обладнання
+      <select name="equipment_id" required>
+        <option value="">
+          Оберіть обладнання
+        </option>
+        <% equipment.forEach(x => { %>
+          <option value="<%= x.equipment_id %>">
+            <%= x.inventory_number %>
+            –
+            <%= x.equipment_name %>
+          </option>
+        <% }) %>
+      </select>
+    </label>
+    <label>
+      Номер плану
+      <input name="plan_number" minlength="3" maxlength="40" pattern="[A-Za-zА-Яа-яІіЇїЄєҐґ0-9][A-Za-zА-Яа-яІіЇїЄєҐґ0-9._/-]*" title="Літери, цифри, крапка, дефіс, підкреслення або /" required>
+    </label>
+    <label>
+      Планова дата
+      <input name="planned_date" type="date" required>
+    </label>
+    <label>
+      Вид ТО
+      <select name="maintenance_kind">
+        <option>
+          Планове ТО
+        </option>
+        <option>
+          Діагностика
+        </option>
+        <option>
+          Контрольний огляд
+        </option>
+        <option>
+          Позаплановий огляд
+        </option>
+      </select>
+    </label>
+    <label>
+      Пріоритет
+      <select name="priority">
+        <option>
+          Низький
+        </option>
+        <option selected>
+          Середній
+        </option>
+        <option>
+          Високий
+        </option>
+      </select>
+    </label>
+    <label>
+      Очікувана тривалість, год
+      <input name="estimated_duration_hours" type="number" min="0.01" max="9999.99" step="0.01" required>
+    </label>
+    <label>
+      Статус
+      <select name="plan_status">
+        <option>
+          Заплановано
+        </option>
+        <option>
+          У роботі
+        </option>
+        <option>
+          Виконано
+        </option>
+      </select>
+    </label>
+    <label class="full">
+      Перелік планових робіт
+      <textarea name="planned_work" data-starts-letter="true" minlength="10" maxlength="5000" required>
+      </textarea>
+    </label>
+    <div class="full">
+      <button type="submit">
+        Додати
+      </button>
+    </div>
+  </form>
+</section>
+<%- include('footer') %>

@@ -1,0 +1,170 @@
+<%- include('header',{title}) %>
+<section class="panel">
+  <h2>
+    Реєстр обладнання
+  </h2>
+  <p class="small">
+    Друга таблиця БД. У стовпці «Плани ТО» перехід до дочірньої таблиці для вибраного обладнання.
+  </p>
+  <div class="scroll">
+    <table>
+      <thead>
+        <tr>
+          <th>
+            ID
+          </th>
+          <th>
+            Інвентарний №
+          </th>
+          <th>
+            Найменування
+          </th>
+          <th>
+            Тип
+          </th>
+          <th>
+            Виробник / модель
+          </th>
+          <th>
+            Дата введення
+          </th>
+          <th>
+            Розташування
+          </th>
+          <th>
+            Стан
+          </th>
+          <th>
+            Плани ТО
+          </th>
+          <th class="action-col" style="text-align: center;">
+            Дії
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <% rows.forEach(x => { %>
+          <tr>
+            <td>
+              <%= x.equipment_id %>
+            </td>
+            <td>
+              <%= x.inventory_number %>
+            </td>
+            <td>
+              <%= x.equipment_name %>
+            </td>
+            <td>
+              <%= x.type_name %>
+            </td>
+            <td>
+              <%= x.manufacturer %>
+              /
+              <%= x.model %>
+            </td>
+            <td>
+              <%= x.commissioned_on %>
+            </td>
+            <td>
+              <%= x.installation_location %>
+            </td>
+            <td>
+              <%= x.technical_state %>
+            </td>
+            <td>
+              <a href="/equipment/<%= x.equipment_id %>/plans">
+                Переглянути
+              </a>
+            </td>
+            <td class="action-cell">
+              <a class="link-btn" href="/equipment/<%= x.equipment_id %>/edit">
+                Редагувати
+              </a>
+              <form class="inline-form" method="post" action="/equipment/<%= x.equipment_id %>/delete" data-delete-label="Обладнання: <%= x.equipment_name %>">
+                <button class="danger" type="submit">
+                  Видалити
+                </button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</section>
+<section class="panel">
+  <h2>
+    Додати обладнання
+  </h2>
+  <form method="post" action="/equipment">
+    <label>
+      Тип обладнання
+      <select name="type_id" required>
+        <option value="">
+          Оберіть тип
+        </option>
+        <% types.forEach(x => { %>
+          <option value="<%= x.type_id %>">
+            <%= x.type_name %>
+          </option>
+        <% }) %>
+      </select>
+    </label>
+    <label>
+      Інвентарний №
+      <input name="inventory_number" minlength="3" maxlength="40" pattern="[A-Za-zА-Яа-яІіЇїЄєҐґ0-9][A-Za-zА-Яа-яІіЇїЄєҐґ0-9._/-]*" title="Літери, цифри, крапка, дефіс, підкреслення або /" required>
+    </label>
+    <label>
+      Найменування
+      <input name="equipment_name" data-starts-letter="true" minlength="3" maxlength="150" required>
+    </label>
+    <label>
+      Виробник
+      <input name="manufacturer" data-starts-letter="true" minlength="2" maxlength="100" required>
+    </label>
+    <label>
+      Модель
+      <input name="model" minlength="1" maxlength="100" required>
+    </label>
+    <label>
+      Заводський №
+      <input name="serial_number" minlength="2" maxlength="100" pattern="[A-Za-zА-Яа-яІіЇїЄєҐґ0-9][A-Za-zА-Яа-яІіЇїЄєҐґ0-9._/-]*" title="Літери, цифри, крапка, дефіс, підкреслення або /" required>
+    </label>
+    <label>
+      Дата введення
+      <input name="commissioned_on" type="date" required>
+    </label>
+    <label>
+      Місце встановлення
+      <input name="installation_location" data-starts-letter="true" minlength="4" maxlength="180" required>
+    </label>
+    <label>
+      Технічний стан
+      <select name="technical_state">
+        <option>
+          Справний
+        </option>
+        <option>
+          Потребує огляду
+        </option>
+        <option>
+          На обслуговуванні
+        </option>
+        <option>
+          Виведено з експлуатації
+        </option>
+      </select>
+    </label>
+    <label class="full">
+      Примітка
+      <textarea name="note" maxlength="3000">
+      </textarea>
+    </label>
+    <div class="full">
+      <button type="submit">
+        Додати
+      </button>
+    </div>
+  </form>
+</section>
+<%- include('footer') %>
