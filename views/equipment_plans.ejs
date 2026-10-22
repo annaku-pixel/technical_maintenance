@@ -1,91 +1,61 @@
-<%- include('header',{title}) %>
+<%- include('header', {title}) %>
+
 <section class="panel">
-  <h2>
-    Обладнання та підпорядковані плани ТО
-  </h2>
+  <h2>Обладнання та підпорядковані плани ТО</h2>
   <p>
-    <strong>
-      <%= parent.equipment_name %>
-    </strong>
-    (
-    <%= parent.inventory_number %>
-    )
+    <strong><%= parent.equipment_name %></strong>
+    (<%= parent.inventory_number %>)
   </p>
   <p>
-    Тип:
-    <%= parent.type_name %>
-    · Виробник:
-    <%= parent.manufacturer %>
-    · Місце:
-    <%= parent.installation_location %>
+    Тип: <%= parent.type_name %> ·
+    Виробник: <%= parent.manufacturer %> ·
+    Місце: <%= parent.installation_location %>
   </p>
-  <div class="equipment-navigation">
-    <a class="link-btn" href="/equipment/<%= previousId %>/plans" aria-label="Попереднє обладнання" title="Попереднє обладнання">
-      < - Попереднє
+  <p>
+    Це приклад зв’язку «один-до-багатьох»:
+    для однієї одиниці обладнання відображено лише її плани ТО.
+  </p>
+  <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px;">
+    <a class="link-btn" href="/equipment/<%= prevId %>/plans">
+      <- Попереднє
     </a>
     <a class="link-btn" href="/equipment">
       Назад до обладнання
     </a>
-    <a class="link-btn" href="/equipment/<%= nextId %>/plans" aria-label="Наступне обладнання" title="Наступне обладнання">
-      Наступне - >
+    <a class="link-btn" href="/equipment/<%= nextId %>/plans">
+      Наступне ->
     </a>
   </div>
 </section>
+
 <section class="panel">
-  <h2>
-    Плани ТО (
-    <%= plans.length %>
-    )
-  </h2>
+  <h2>Плани ТО (<%= plans.length %>)</h2>
   <div class="scroll">
     <table>
       <thead>
         <tr>
-          <th>
-            № плану
-          </th>
-          <th>
-            Дата
-          </th>
-          <th>
-            Вид
-          </th>
-          <th>
-            Роботи
-          </th>
-          <th>
-            Пріоритет
-          </th>
-          <th>
-            Статус
-          </th>
+          <th>№ плану</th>
+          <th>Дата</th>
+          <th>Вид</th>
+          <th>Роботи</th>
+          <th>Пріоритет</th>
+          <th>Статус</th>
         </tr>
       </thead>
       <tbody>
         <% plans.forEach(x => { %>
           <tr>
-            <td>
-              <%= x.plan_number %>
-            </td>
-            <td>
-              <%= x.planned_date %>
-            </td>
-            <td>
-              <%= x.maintenance_kind %>
-            </td>
-            <td>
-              <%= x.planned_work %>
-            </td>
-            <td>
-              <%= x.priority %>
-            </td>
-            <td>
-              <%= x.plan_status %>
-            </td>
+            <td><%= x.plan_number %></td>
+            <td><%= x.planned_date %></td>
+            <td><%= x.maintenance_kind %></td>
+            <td><%= x.planned_work %></td>
+            <td><%= x.priority %></td>
+            <td><%= x.plan_status %></td>
           </tr>
         <% }) %>
       </tbody>
     </table>
   </div>
 </section>
+
 <%- include('footer') %>

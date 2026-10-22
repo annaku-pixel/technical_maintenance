@@ -1,0 +1,9 @@
+<%- include('header',{title}) %>
+<section class="panel"><h2><%= title %></h2>
+<% if (mode==='activity') { %><form method="get" action="/statistics/activity"><label>Дата з<input name="from" type="date" value="<%= from %>" required></label><label>Дата по<input name="to" type="date" value="<%= to %>" required></label><button type="submit">Отримати дані</button></form>
+<% if (rows) { %><p>Період: <%= from %> - <%= to %>. Сформовано: <%= generatedAt %></p><% } %><% } %>
+<% if (rows) { %><div class="scroll"><table><thead><tr>
+<% const columns = mode==='overdue' ? [['inventory_number','Інвентарний номер'],['equipment_name','Обладнання'],['type_name','Тип'],['total_plans','Усього планів'],['overdue_plans','Прострочені'],['oldest_overdue_date','Найдавніша прострочена дата']] : [['type_name','Тип обладнання'],['equipment_count','Кількість обладнання'],['total_plans','Планів за період'],['completed_plans','Виконано'],['overdue_plans','Прострочено'],['average_hours','Середня тривалість, год']]; %>
+<% columns.forEach(([, label]) => { %><th><%= label %></th><% }) %></tr></thead><tbody>
+<% rows.forEach(row => { %><tr><% columns.forEach(([key]) => { %><td><%= row[key] ?? '-' %></td><% }) %></tr><% }) %></tbody></table></div><% } %>
+</section><%- include('footer') %>
